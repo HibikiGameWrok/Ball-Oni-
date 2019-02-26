@@ -73,6 +73,7 @@ artifacts/
 *.rc
 *.manifest
 *.ico
+*.lib
 
 # Chutzpah Test files
 _Chutzpah*
