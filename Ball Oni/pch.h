@@ -48,6 +48,7 @@
 #include <stdexcept>
 
 #include <stdio.h>
+
 #include <SimpleMath.h>
 #include <CommonStates.h>
 #include <WICTextureLoader.h>
