@@ -1,7 +1,7 @@
 ﻿//
 //	File	 : PlayScene.cpp
 //
-//  Contents : ゲームをプレイするシーン
+//  Contents : ゲームをプレイするシーンクラスの定義
 //
 //	name	 : Hibiki Yoshiyasu
 //
@@ -277,8 +277,9 @@ bool PlayScene::SceneChange()
 	// 180フレームカウントされた時シーン切り替え
 	if (m_changeTime > 180)
 	{
-		// 鬼は誰か
+		// 誰が鬼なのかを変数に代入
 		m_nowOni = m_pJudgeUI->GetNowOni();
+		// 結果を表示する為にリザルトシーンへ誰が鬼なのかを伝える
 		ResultScene* pResultScene = new ResultScene(m_nowOni);
 		Task::TaskManager::AddTask(pResultScene, 0);
 		return false;
@@ -293,7 +294,6 @@ void PlayScene::SetUpFunc()
 {
 	// 鬼がだれか毎フレーム設定
 	m_pJudgeUI->SetNowOni(m_nowOni);
-
 	// スタミナバーがあるかどうかをプレイヤーに伝える
 	m_pStamina->SetDashFlag(m_pPlayer->GetSrowFlag());
 	m_pPlayer->SetDashFlag(m_pStamina->GetBerZeroFlag());
@@ -581,10 +581,13 @@ void PlayScene::SetUpFunc()
 	static int timer = 0;
 	if (m_pEffectManager != nullptr)
 	{
+		// エフェクトが出ている間カウント
 		timer++;
 		if (timer > 180)
 		{
+			// エフェクトが３秒経ったら出ているエフェクトのタスクを削除
 			Task::TaskManager::RemoveTask(m_pEffectManager->GetThisTaskHandle());
+			// 保管していた変数の中身を初期化
 			m_pEffectManager = nullptr;
 			timer = 0;
 		}

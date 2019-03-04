@@ -1,4 +1,11 @@
-﻿#pragma once
+﻿//
+//	File	 : PlayScene.h
+//
+//  Contents : ゲームをプレイするシーンクラス
+//
+//	name	 : Hibiki Yoshiyasu
+//
+#pragma once
 #include "../../ADX2/ADX2Le.h"
 #include "../../StepTimer.h"
 
