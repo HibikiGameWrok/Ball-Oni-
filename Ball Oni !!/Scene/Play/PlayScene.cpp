@@ -74,8 +74,8 @@ void PlayScene::Start()
 		1000.0f
 	);
 
-	Create3D();
-	Create2D();
+	Create2D(); // 2Dオブジェクトを作成
+	Create3D();	// 3Dオブジェクトを作成
 }
 
 /// <summary>
@@ -106,66 +106,66 @@ void PlayScene::Create2D()
 void PlayScene::Create3D()
 {
 	SkyBox* pSkyBox = new SkyBox();										// 背景オブジェクト
-	Task::TaskManager::AddTask(GetThisTaskHandle(), pSkyBox,0);
+	Task::TaskManager::AddTask(GetThisTaskHandle(), pSkyBox, 0);
 
 	Floor* pFloor = new Floor();										// 床のオブジェクト
-	Task::TaskManager::AddTask(GetThisTaskHandle(), pFloor,0);
+	Task::TaskManager::AddTask(GetThisTaskHandle(), pFloor, 0);
 
-	// 影のモデルを作成
+	
 	for (int i = 0; i < MAX_SHADOW; i++)
 	{
-		m_pShadow[i] = new Shadow();
+		m_pShadow[i] = new Shadow();								    // 影のモデルを作成
 		Task::TaskManager::AddTask(GetThisTaskHandle(), m_pShadow[i], 0);
 	}
 
-	m_pPlayer = new Player(Vector3(-8.0f, 0.3f, 17.0f),90);								// プレイヤー
-	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pPlayer,1);
+	m_pPlayer = new Player(Vector3(-8.0f, 0.3f, 17.0f), 90);				// プレイヤー
+	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pPlayer, 1);
 
-	m_pCpu = new Cpu(Vector3(11.0f, 0.3f, -3.0f), -90.0f);								// コンピュータ
-	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pCpu , 2);
+	m_pCpu = new Cpu(Vector3(11.0f, 0.3f, -3.0f), -90.0f);					// コンピュータ
+	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pCpu, 2);
 
-	m_pBall = new Ball();																// ボール
+	m_pBall = new Ball();													// ボール
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pBall, 3);
 
-
+#pragma region "壁:壁管理クラスで出す"
 	// 四角型当たり判定の半径設定
 	// 横向きの壁
 	Vector3 boxRadius_FandB = Vector3(0.15f, 0.15f, 0.05f);
 	// 縦向きの壁
 	Vector3 boxRadius_LandR = Vector3(0.05f, 0.15f, 0.15f);
 
-	m_pBWall[0] = new BoardWall(Vector3(0, 0,  19),  0, boxRadius_FandB);		// 板状の壁
-	m_pBWall[1] = new BoardWall(Vector3(3, 0,  19),  0, boxRadius_FandB);
-	m_pBWall[2] = new BoardWall(Vector3(-3,0,  19),  0, boxRadius_FandB);
-	m_pBWall[3] = new BoardWall(Vector3(6, 0,  19),  0, boxRadius_FandB);
-	m_pBWall[4] = new BoardWall(Vector3(-6, 0, 19),  0, boxRadius_FandB);
-	m_pBWall[5] = new BoardWall(Vector3(9, 0, 19),   0, boxRadius_FandB);
-	m_pBWall[6] = new BoardWall(Vector3(-9, 0, 19),  0, boxRadius_FandB);
-	m_pBWall[7] = new BoardWall(Vector3(12, 0, 19),  0, boxRadius_FandB);
-	
-	m_pBWall[8] = new BoardWall(Vector3(0, 0, -5),   0, boxRadius_FandB);		// 板状の壁
-	m_pBWall[9] = new BoardWall(Vector3(3, 0, -5),   0, boxRadius_FandB);
+	m_pBWall[0] = new BoardWall(Vector3(0, 0, 19), 0, boxRadius_FandB);		// 板状の壁
+	m_pBWall[1] = new BoardWall(Vector3(3, 0, 19), 0, boxRadius_FandB);
+	m_pBWall[2] = new BoardWall(Vector3(-3, 0, 19), 0, boxRadius_FandB);
+	m_pBWall[3] = new BoardWall(Vector3(6, 0, 19), 0, boxRadius_FandB);
+	m_pBWall[4] = new BoardWall(Vector3(-6, 0, 19), 0, boxRadius_FandB);
+	m_pBWall[5] = new BoardWall(Vector3(9, 0, 19), 0, boxRadius_FandB);
+	m_pBWall[6] = new BoardWall(Vector3(-9, 0, 19), 0, boxRadius_FandB);
+	m_pBWall[7] = new BoardWall(Vector3(12, 0, 19), 0, boxRadius_FandB);
+
+	m_pBWall[8] = new BoardWall(Vector3(0, 0, -5), 0, boxRadius_FandB);		// 板状の壁
+	m_pBWall[9] = new BoardWall(Vector3(3, 0, -5), 0, boxRadius_FandB);
 	m_pBWall[10] = new BoardWall(Vector3(-3, 0, -5), 0, boxRadius_FandB);
-	m_pBWall[11] = new BoardWall(Vector3(6, 0, -5),  0, boxRadius_FandB);
+	m_pBWall[11] = new BoardWall(Vector3(6, 0, -5), 0, boxRadius_FandB);
 	m_pBWall[12] = new BoardWall(Vector3(-6, 0, -5), 0, boxRadius_FandB);
-	m_pBWall[13] = new BoardWall(Vector3(9, 0, -5),  0, boxRadius_FandB);
+	m_pBWall[13] = new BoardWall(Vector3(9, 0, -5), 0, boxRadius_FandB);
 	m_pBWall[14] = new BoardWall(Vector3(-9, 0, -5), 0, boxRadius_FandB);
 	m_pBWall[15] = new BoardWall(Vector3(12, 0, -5), 0, boxRadius_FandB);
-	
+
 	m_pBWall[16] = new BoardWall(Vector3(13, 0, -3), 90, boxRadius_LandR);		// 板状の壁
-	m_pBWall[17] = new BoardWall(Vector3(13, 0, 0),  90, boxRadius_LandR);
-	m_pBWall[18] = new BoardWall(Vector3(13, 0, 3),  90, boxRadius_LandR);
-	m_pBWall[19] = new BoardWall(Vector3(13, 0, 6),  90, boxRadius_LandR);
-	m_pBWall[20] = new BoardWall(Vector3(13, 0, 9),  90, boxRadius_LandR);
+	m_pBWall[17] = new BoardWall(Vector3(13, 0, 0), 90, boxRadius_LandR);
+	m_pBWall[18] = new BoardWall(Vector3(13, 0, 3), 90, boxRadius_LandR);
+	m_pBWall[19] = new BoardWall(Vector3(13, 0, 6), 90, boxRadius_LandR);
+	m_pBWall[20] = new BoardWall(Vector3(13, 0, 9), 90, boxRadius_LandR);
 	m_pBWall[21] = new BoardWall(Vector3(13, 0, 12), 90, boxRadius_LandR);
 	m_pBWall[22] = new BoardWall(Vector3(13, 0, 15), 90, boxRadius_LandR);
 	m_pBWall[23] = new BoardWall(Vector3(13, 0, 18), 90, boxRadius_LandR);
-	
+
 	m_pBWall[24] = new BoardWall(Vector3(-10, 0, -3), 90, boxRadius_LandR);		// 板状の壁
-	m_pBWall[25] = new BoardWall(Vector3(-10, 0, 0),  90, boxRadius_LandR);
-	m_pBWall[26] = new BoardWall(Vector3(-10, 0, 3),  90, boxRadius_LandR);
-	m_pBWall[27] = new BoardWall(Vector3(-10, 0, 6),  90, boxRadius_LandR);
-	m_pBWall[28] = new BoardWall(Vector3(-10, 0, 9),  90, boxRadius_LandR);
+	m_pBWall[25] = new BoardWall(Vector3(-10, 0, 0), 90, boxRadius_LandR);
+	m_pBWall[26] = new BoardWall(Vector3(-10, 0, 3), 90, boxRadius_LandR);
+	m_pBWall[27] = new BoardWall(Vector3(-10, 0, 6), 90, boxRadius_LandR);
+	m_pBWall[28] = new BoardWall(Vector3(-10, 0, 9), 90, boxRadius_LandR);
 	m_pBWall[29] = new BoardWall(Vector3(-10, 0, 12), 90, boxRadius_LandR);
 	m_pBWall[30] = new BoardWall(Vector3(-10, 0, 15), 90, boxRadius_LandR);
 	m_pBWall[31] = new BoardWall(Vector3(-10, 0, 18), 90, boxRadius_LandR);
@@ -173,7 +173,7 @@ void PlayScene::Create3D()
 	{
 		Task::TaskManager::AddTask(GetThisTaskHandle(), m_pBWall[i]);
 	}
-	
+
 	m_pBWall_a[0] = new BoardWall(Vector3(11, 0, -1), 0, boxRadius_FandB);		// 板状の壁
 	m_pBWall_a[1] = new BoardWall(Vector3(-8, 0, 15), 0, boxRadius_FandB);		// 板状の壁
 	m_pBWall_a[2] = new BoardWall(Vector3(0, 0, 8), 0, boxRadius_FandB);		// 板状の壁
@@ -183,6 +183,8 @@ void PlayScene::Create3D()
 	{
 		Task::TaskManager::AddTask(GetThisTaskHandle(), m_pBWall_a[i]);
 	}
+#pragma endregion
+
 
 	//m_pOuterWall = new WallManager(32,L"Resources\\WallEdit\\OuterWall_Data.csv");		// 外枠の壁を管理するクラス
 	//Task::TaskManager::AddTask(GetThisTaskHandle(), m_pOuterWall);
@@ -204,27 +206,12 @@ bool PlayScene::Update(float elapsedTime)
 	m_pShadow[0]->SetPos(Vector3(m_pPlayer->GetPos().x, m_pPlayer->GetPos().y - 0.28f, m_pPlayer->GetPos().z));
 	m_pShadow[1]->SetPos(Vector3(m_pCpu->GetPos().x, m_pCpu->GetPos().y - 0.28f, m_pCpu->GetPos().z));
 
-	// タイムが切れた時
-	if (m_pTime->GetFinishFlag() == true)
+	// シーン切り替えの処理が終わったら更新を止める
+	if (SceneChange() == false)
 	{
-		// カウントをする
-		m_changeTime++;
-	}
-	// カウントが1秒の時音を鳴らす
-	if (m_changeTime > 0 && m_changeTime < 2)
-	{
-		m_pAdx2le->Play(4);
-	}
-
-	// 180フレームカウントされた時シーン切り替え
-	if (m_changeTime > 180)
-	{
-		// 鬼は誰か
-		m_nowOni = m_pJudgeUI->GetNowOni();
-		ResultScene* pResultScene = new ResultScene(m_nowOni);
-		Task::TaskManager::AddTask(pResultScene, 0);
 		return false;
 	}
+
 	return true;
 }
 
@@ -255,7 +242,7 @@ void PlayScene::Draw()
 }
 
 /// <summary>
-/// 描画開始
+/// 描画開始処理
 /// </summary>
 void PlayScene::DrawBegin()
 {
@@ -263,11 +250,40 @@ void PlayScene::DrawBegin()
 }
 
 /// <summary>
-/// 描画終了
+/// 描画終了処理
 /// </summary>
 void PlayScene::DrawEnd()
 {
 	System::DrawManager::GetInstance().End();
+}
+
+/// <summary>
+/// シーンを切り替える処理
+/// </summary>
+bool PlayScene::SceneChange()
+{
+	// タイムが切れた時
+	if (m_pTime->GetFinishFlag() == true)
+	{
+		// カウントをする
+		m_changeTime++;
+	}
+	// カウントが1秒の時音を鳴らす
+	if (m_changeTime > 0 && m_changeTime < 2)
+	{
+		m_pAdx2le->Play(4);
+	}
+
+	// 180フレームカウントされた時シーン切り替え
+	if (m_changeTime > 180)
+	{
+		// 鬼は誰か
+		m_nowOni = m_pJudgeUI->GetNowOni();
+		ResultScene* pResultScene = new ResultScene(m_nowOni);
+		Task::TaskManager::AddTask(pResultScene, 0);
+		return false;
+	}
+	return true;
 }
 
 /// <summary>
@@ -574,3 +590,5 @@ void PlayScene::SetUpFunc()
 		}
 	}
 }
+
+

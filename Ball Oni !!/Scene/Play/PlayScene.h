@@ -97,6 +97,9 @@ public:
 	void DrawBegin() override;
 	void DrawEnd() override;
 
+	// シーン切り替え関数
+	bool SceneChange();
+
 	// 設定更新
 	void SetUpFunc();
 
