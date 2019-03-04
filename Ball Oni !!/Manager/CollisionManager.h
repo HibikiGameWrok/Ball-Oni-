@@ -7,7 +7,15 @@
 //
 #pragma once
 
-class CollisionManager
+#include "../../TaskSystem/TaskBase.h"
+
+class CollisionManager : public Task::TaskBase
 {
+
+	// 開始処理
+	void Start() override;
+	// 更新
+	bool Update(float elapsedTime);
+
 
 };
