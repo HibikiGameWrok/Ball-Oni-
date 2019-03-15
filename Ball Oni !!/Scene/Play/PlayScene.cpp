@@ -36,7 +36,8 @@ using namespace System;
 /// <param name="nowOni">鬼は誰なのか示す値</param>
 /// nowOni : '1' = プレイヤーが鬼 , '2以降' = Cpuが鬼 
 PlayScene::PlayScene(unsigned __int8 nowOni)
-	:m_nowOni(nowOni)
+	:m_startFlag(false)
+	,m_nowOni(nowOni)
 	, m_pEffectManager(nullptr)
 	, m_changeTime(0)
 	, m_hitFlag(true)
@@ -83,6 +84,9 @@ void PlayScene::Start()
 /// </summary>
 void PlayScene::Create2D()
 {
+	m_pTeachPlayStart = new TeachPlayStartUI();   // 開始前に表示するUI
+	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pTeachPlayStart);
+
 	m_pTime = new GameTime();											// カウントタイム
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pTime);
 
@@ -111,13 +115,6 @@ void PlayScene::Create3D()
 	Floor* pFloor = new Floor();										// 床のオブジェクト
 	Task::TaskManager::AddTask(GetThisTaskHandle(), pFloor, 0);
 
-	
-	for (int i = 0; i < MAX_SHADOW; i++)
-	{
-		m_pShadow[i] = new Shadow();								    // 影のモデルを作成
-		Task::TaskManager::AddTask(GetThisTaskHandle(), m_pShadow[i], 0);
-	}
-
 	m_pPlayer = new Player(Vector3(-8.0f, 0.3f, 17.0f), 90);				// プレイヤー
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pPlayer, 1);
 
@@ -126,6 +123,15 @@ void PlayScene::Create3D()
 
 	m_pBall = new Ball();													// ボール
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pBall, 3);
+
+	for (int i = 0; i < MAX_SHADOW; i++)
+	{
+		m_pShadow[i] = new Shadow();								    // 影のモデルを作成
+		Task::TaskManager::AddTask(GetThisTaskHandle(), m_pShadow[i], 0);
+	}
+	// 影のモデルにプレイヤーの座標を伝える
+	m_pShadow[0]->SetPos(Vector3(m_pPlayer->GetPos().x, m_pPlayer->GetPos().y - 0.28f, m_pPlayer->GetPos().z));
+	m_pShadow[1]->SetPos(Vector3(m_pCpu->GetPos().x, m_pCpu->GetPos().y - 0.28f, m_pCpu->GetPos().z));
 
 #pragma region "壁:壁管理クラスで出す"
 	// 四角型当たり判定の半径設定
@@ -185,7 +191,6 @@ void PlayScene::Create3D()
 	}
 #pragma endregion
 
-
 	//m_pOuterWall = new WallManager(32,L"Resources\\WallEdit\\OuterWall_Data.csv");		// 外枠の壁を管理するクラス
 	//Task::TaskManager::AddTask(GetThisTaskHandle(), m_pOuterWall);
 
@@ -199,19 +204,26 @@ void PlayScene::Create3D()
 /// <returns>true = 更新されている,false = 更新されていない</returns>
 bool PlayScene::Update(float elapsedTime)
 {
-	// 当たり判定等の更新(後に消す)
-	SetUpFunc();
-
-	// 影のモデルにプレイヤーの座標を伝える
-	m_pShadow[0]->SetPos(Vector3(m_pPlayer->GetPos().x, m_pPlayer->GetPos().y - 0.28f, m_pPlayer->GetPos().z));
-	m_pShadow[1]->SetPos(Vector3(m_pCpu->GetPos().x, m_pCpu->GetPos().y - 0.28f, m_pCpu->GetPos().z));
-
-	// シーン切り替えの処理が終わったら更新を止める
-	if (SceneChange() == false)
+	// ゲームを開始する処理
+	StartGame();
+	if (m_startFlag != false)
 	{
-		return false;
-	}
+		// カウントを始める
+		m_pTime->SetStopFlag(false);
 
+		// 当たり判定等の更新(後に消す)
+		SetUpFunc();
+
+		// 影のモデルにプレイヤーの座標を伝える
+		m_pShadow[0]->SetPos(Vector3(m_pPlayer->GetPos().x, m_pPlayer->GetPos().y - 0.28f, m_pPlayer->GetPos().z));
+		m_pShadow[1]->SetPos(Vector3(m_pCpu->GetPos().x, m_pCpu->GetPos().y - 0.28f, m_pCpu->GetPos().z));
+
+		// シーン切り替えの処理が終わったら更新を止める
+		if (SceneChange() == false)
+		{
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -255,6 +267,19 @@ void PlayScene::DrawBegin()
 void PlayScene::DrawEnd()
 {
 	System::DrawManager::GetInstance().End();
+}
+
+/// <summary>
+/// ゲーム開始処理
+/// </summary>
+void PlayScene::StartGame()
+{
+	// スペースを押された瞬間、ゲームを開始する
+	if (InputManager::GetInstance().GetKeyTracker().IsKeyPressed(Keyboard::Space))
+	{
+		// ゲームが始まっている状態
+		m_startFlag = true;
+	}
 }
 
 /// <summary>

@@ -33,6 +33,8 @@
 
 #include "../../Effect/EffectManager.h"
 
+#include "../../GameObj/UI/TeachPlayStartUI.h"
+
 class PlayScene : public Task::TaskBase
 {
 public:
@@ -42,6 +44,8 @@ public:
 	static const int MAX_OBSTACLE_WALL = 5;
 private:
 	MyLibrary::ADX2Le *m_pAdx2le;
+
+	TeachPlayStartUI* m_pTeachPlayStart; // 開始する前に表示するUI
 
 	StaminaGauge* m_pStamina;		// スタミナバー
 	GameTime* m_pTime;			// 時間	
@@ -71,6 +75,9 @@ private:
 	// 射影行列
 	DirectX::SimpleMath::Matrix m_projection;
 
+	// ゲームが開始するフラグ
+	bool m_startFlag;
+
 	// フレーム数
 	int m_frameTime;
 	// 秒数
@@ -84,6 +91,7 @@ private:
 
 	// 衝突しているかどうか
 	bool m_hitFlag;
+
 public:
 	PlayScene() {};
 	PlayScene(unsigned __int8 nowOni);
@@ -103,6 +111,9 @@ public:
 	void Draw() override;
 	void DrawBegin() override;
 	void DrawEnd() override;
+
+	// ゲーム開始処理
+	void StartGame();
 
 	// シーン切り替え関数
 	bool SceneChange();
