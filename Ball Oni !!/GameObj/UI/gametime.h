@@ -16,20 +16,20 @@ public:
 	const int TimeUI_HEIGHT = 40;	// 画像の１つの数字分の高さ
 	
 private:
-	System::DrawData m_countDownUI;	// 開始と終了時にカウントするUI
+	//System::DrawData m_countDownUI;	// 開始と終了時にカウントするUI
 	System::DrawData m_backGround;	// 背景
 	System::DrawData m_onePlace;		// フレーム単位画像
 	System::DrawData m_tenPlace;		// 秒単位画像
 	System::DrawData m_finishUI;		// 終了を知らせるUI
 
-	bool m_stopFlag;
-	bool m_finishFlag;				// 終了フラグ
+	bool m_stopFlag; // カウントが止まっているか判断するフラグ
+	bool m_finishFlag;	// 終了フラグ
 
 	int m_framesTime;  // フレーム単位 カウント用変数
 	int m_secondsTime; // 秒単位	   カウント用変数
 
-	DirectX::SimpleMath::Vector4 m_countDown_rect;  // カウントダウンUIの画像範囲
-	DirectX::SimpleMath::Vector2 m_countDown_scale;	// カウントダウンUIの大きさを変動させる変数
+	//DirectX::SimpleMath::Vector4 m_countDown_rect;  // カウントダウンUIの画像範囲
+	//DirectX::SimpleMath::Vector2 m_countDown_scale;	// カウントダウンUIの大きさを変動させる変数
 
 public:
 	// コンストラクタ

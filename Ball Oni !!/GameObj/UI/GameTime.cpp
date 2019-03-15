@@ -15,12 +15,12 @@ using namespace DirectX::SimpleMath;
 /// コンストラクタ
 /// </summary>
 GameTime::GameTime()
-	:m_stopFlag(false)
+	:m_stopFlag(true)
 	,m_finishFlag(false)
 	,m_framesTime(60)
 	,m_secondsTime(60)
-	,m_countDown_rect(0,0,100,100)
-	,m_countDown_scale(MAX_COUNTDOWNUI_SIZE)
+	//,m_countDown_rect(0,0,100,100)
+	//,m_countDown_scale(MAX_COUNTDOWNUI_SIZE)
 {
 }
 
@@ -36,17 +36,17 @@ GameTime::~GameTime()
 /// </summary>
 void GameTime::Start()
 {
-	// カウントダウンするUI
-	System::DrawManager::GetInstance().LoadTexture(m_countDownUI, L"Resources\\Textures\\PlayScene\\CountDown.png");
-	m_countDownUI.SetRect(
-		static_cast<LONG>(m_countDown_rect.x),
-		static_cast<LONG>(m_countDown_rect.y),
-		static_cast<LONG>(m_countDown_rect.z),
-		static_cast<LONG>(m_countDown_rect.w)
-	);
-	m_countDownUI.SetOrigin(100 / 2, 100 / 2);
-	m_countDownUI.SetPos(800 / 2, 600 /2);
-	m_countDownUI.SetScale(m_countDown_scale.x, m_countDown_scale.y);
+	//// カウントダウンするUI
+	//System::DrawManager::GetInstance().LoadTexture(m_countDownUI, L"Resources\\Textures\\PlayScene\\CountDown.png");
+	//m_countDownUI.SetRect(
+	//	static_cast<LONG>(m_countDown_rect.x),
+	//	static_cast<LONG>(m_countDown_rect.y),
+	//	static_cast<LONG>(m_countDown_rect.z),
+	//	static_cast<LONG>(m_countDown_rect.w)
+	//);
+	//m_countDownUI.SetOrigin(100 / 2, 100 / 2);
+	//m_countDownUI.SetPos(800 / 2, 600 /2);
+	//m_countDownUI.SetScale(m_countDown_scale.x, m_countDown_scale.y);
 
 	// タイムの背景
 	System::DrawManager::GetInstance().LoadTexture(m_backGround, L"Resources\\Textures\\PlayScene\\Time_Back.png");
@@ -85,14 +85,14 @@ bool GameTime::Update(float elapsedTime)
 		CountDown();
 	}
 
-	// 毎フレーム大きさと画像サイズを更新
-	m_countDownUI.SetScale(m_countDown_scale.x, m_countDown_scale.y);
-	m_countDownUI.SetRect(
-		static_cast<LONG>(m_countDown_rect.x),
-		static_cast<LONG>(m_countDown_rect.y),
-		static_cast<LONG>(m_countDown_rect.z),
-		static_cast<LONG>(m_countDown_rect.w)
-		);
+	//// 毎フレーム大きさと画像サイズを更新
+	//m_countDownUI.SetScale(m_countDown_scale.x, m_countDown_scale.y);
+	//m_countDownUI.SetRect(
+	//	static_cast<LONG>(m_countDown_rect.x),
+	//	static_cast<LONG>(m_countDown_rect.y),
+	//	static_cast<LONG>(m_countDown_rect.z),
+	//	static_cast<LONG>(m_countDown_rect.w)
+	//	);
 
 	m_onePlace.SetRect(m_secondsTime / 10 * TimeUI_WIDTH, 0, m_secondsTime / 10 * TimeUI_WIDTH + TimeUI_WIDTH, TimeUI_HEIGHT);
 	m_tenPlace.SetRect(m_secondsTime % 10 * TimeUI_WIDTH, 0, m_secondsTime % 10 * TimeUI_WIDTH + TimeUI_WIDTH, TimeUI_HEIGHT);
@@ -104,10 +104,10 @@ bool GameTime::Update(float elapsedTime)
 /// </summary>
 void GameTime::Draw()
 {
-	if ((m_secondsTime <= 3 && m_secondsTime >= 1) && m_secondsTime > 0)
-	{
-		System::DrawManager::GetInstance().Draw(m_countDownUI);
-	}
+	//if ((m_secondsTime <= 3 && m_secondsTime >= 1) && m_secondsTime > 0)
+	//{
+	//	System::DrawManager::GetInstance().Draw(m_countDownUI);
+	//}
 
 	// 背景
 	System::DrawManager::GetInstance().Draw(m_backGround);
@@ -129,24 +129,24 @@ void GameTime::Draw()
 /// </summary>
 void GameTime::Count_Time()
 {
-	// フレーム単位変数を0になるまでカウントダウン
-	if (m_secondsTime != 0) {
-		if (m_framesTime >= 0) {
-			m_framesTime--;
+		// フレーム単位変数を0になるまでカウントダウン
+		if (m_secondsTime != 0) {
+			if (m_framesTime >= 0) {
+				m_framesTime--;
+			}
 		}
-	}
 
-	// フレーム単位変数が0になったら秒単位変数を1秒分カウントダウン 
-	if (m_framesTime < 0) {
-		m_secondsTime--;
-		m_framesTime = MAX_FRAME_TIME;
-	}
+		// フレーム単位変数が0になったら秒単位変数を1秒分カウントダウン 
+		if (m_framesTime < 0) {
+			m_secondsTime--;
+			m_framesTime = MAX_FRAME_TIME;
+		}
 
-	// 秒数が0になった時終了を知らせる
-	if (m_secondsTime == 0)
-	{
-		m_finishFlag = true;
-	}
+		// 秒数が0になった時終了を知らせる
+		if (m_secondsTime == 0)
+		{
+			m_finishFlag = true;
+		}
 }
 
 /// <summary>
@@ -154,49 +154,49 @@ void GameTime::Count_Time()
 /// </summary>
 void GameTime::CountDown()
 {
-	// 画像スケールが0になった時大きい状態に戻す
-	if (m_countDown_scale.x <= 0.0f)
-	{
-		m_countDown_scale.x = MAX_COUNTDOWNUI_SIZE;
-		m_countDown_scale.y = MAX_COUNTDOWNUI_SIZE;
-	}
+	//// 画像スケールが0になった時大きい状態に戻す
+	//if (m_countDown_scale.x <= 0.0f)
+	//{
+	//	m_countDown_scale.x = MAX_COUNTDOWNUI_SIZE;
+	//	m_countDown_scale.y = MAX_COUNTDOWNUI_SIZE;
+	//}
 
-	// 残り３秒の時
-	if (m_secondsTime == 3)
-	{
-		// 画像スケールを縮小
-		if (m_countDown_scale.x > 0 || m_countDown_scale.y > 0)
-		{
-			m_countDown_scale.x -= 0.1f;
-			m_countDown_scale.y -= 0.1f;
-		}
-	}
-	// 残り２秒の時
-	if (m_secondsTime == 2)
-	{
-		m_countDown_rect.x = COUNTUI_WIDTH;
-		m_countDown_rect.y = 0;
-		m_countDown_rect.z = COUNTUI_WIDTH * 2;
-		m_countDown_rect.w = COUNTUI_WIDTH;
-		// 画像スケールを縮小
-		if (m_countDown_scale.x > 0 || m_countDown_scale.y > 0)
-		{
-			m_countDown_scale.x -= 0.1f;
-			m_countDown_scale.y -= 0.1f;
-		}
-	}
-	// 残り１秒の時
-	if (m_secondsTime == 1)
-	{
-		m_countDown_rect.x = COUNTUI_WIDTH * 2;
-		m_countDown_rect.y = 0;
-		m_countDown_rect.z = COUNTUI_WIDTH * 3;
-		m_countDown_rect.w = COUNTUI_WIDTH;
-		// 画像スケールを縮小
-		if (m_countDown_scale.x > 0 || m_countDown_scale.y > 0)
-		{
-			m_countDown_scale.x -= 0.1f;
-			m_countDown_scale.y -= 0.1f;
-		}
-	}
+	//// 残り３秒の時
+	//if (m_secondsTime == 3)
+	//{
+	//	// 画像スケールを縮小
+	//	if (m_countDown_scale.x > 0 || m_countDown_scale.y > 0)
+	//	{
+	//		m_countDown_scale.x -= 0.1f;
+	//		m_countDown_scale.y -= 0.1f;
+	//	}
+	//}
+	//// 残り２秒の時
+	//if (m_secondsTime == 2)
+	//{
+	//	m_countDown_rect.x = COUNTUI_WIDTH;
+	//	m_countDown_rect.y = 0;
+	//	m_countDown_rect.z = COUNTUI_WIDTH * 2;
+	//	m_countDown_rect.w = COUNTUI_WIDTH;
+	//	// 画像スケールを縮小
+	//	if (m_countDown_scale.x > 0 || m_countDown_scale.y > 0)
+	//	{
+	//		m_countDown_scale.x -= 0.1f;
+	//		m_countDown_scale.y -= 0.1f;
+	//	}
+	//}
+	//// 残り１秒の時
+	//if (m_secondsTime == 1)
+	//{
+	//	m_countDown_rect.x = COUNTUI_WIDTH * 2;
+	//	m_countDown_rect.y = 0;
+	//	m_countDown_rect.z = COUNTUI_WIDTH * 3;
+	//	m_countDown_rect.w = COUNTUI_WIDTH;
+	//	// 画像スケールを縮小
+	//	if (m_countDown_scale.x > 0 || m_countDown_scale.y > 0)
+	//	{
+	//		m_countDown_scale.x -= 0.1f;
+	//		m_countDown_scale.y -= 0.1f;
+	//	}
+	//}
 }
