@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 
+#pragma warning(disable : 4996)
 
 //---------------------------------------------------------------------------
 /*
@@ -194,7 +195,6 @@ void NeuralNetworkLayer::CalculateNeuronValues(void)
 }
 
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // NeuralNetwork Class
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -316,60 +316,60 @@ void NeuralNetwork::SetMomentum(bool useMomentum, double factor)
 
 void NeuralNetwork::DumpData(char* filename)
 {
-	FILE*	f;
+	FILE*	pf;
 
-	f = fopen(filename, "w");
+	pf = fopen(filename, "w");
 	
-	fprintf(f, "--------------------------------------------------------\n");
-	fprintf(f, "Input Layer\n");
-	fprintf(f, "--------------------------------------------------------\n");
-	fprintf(f, "\n");
-	fprintf(f, "Node Values:\n");
-	fprintf(f, "\n");
+	fprintf(pf, "--------------------------------------------------------\n");
+	fprintf(pf, "Input Layer\n");
+	fprintf(pf, "--------------------------------------------------------\n");
+	fprintf(pf, "\n");
+	fprintf(pf, "Node Values:\n");
+	fprintf(pf, "\n");
 	for(int i=0; i<InputLayer.NumberOfNodes; i++)		
-		fprintf(f, "(%d) = %f\n", i, InputLayer.NeuronValues[i]);
-	fprintf(f, "\n");
-	fprintf(f, "Weights:\n");
-	fprintf(f, "\n");
+		fprintf(pf, "(%d) = %f\n", i, InputLayer.NeuronValues[i]);
+	fprintf(pf, "\n");
+	fprintf(pf, "Weights:\n");
+	fprintf(pf, "\n");
 	for(int i=0; i<InputLayer.NumberOfNodes; i++)
 		for(int j=0; j<InputLayer.NumberOfChildNodes; j++)
-			fprintf(f, "(%d, %d) = %f\n", i, j, InputLayer.Weights[i][j]);
-	fprintf(f, "\n");
-	fprintf(f, "Bias Weights:\n");
-	fprintf(f, "\n");
+			fprintf(pf, "(%d, %d) = %f\n", i, j, InputLayer.Weights[i][j]);
+	fprintf(pf, "\n");
+	fprintf(pf, "Bias Weights:\n");
+	fprintf(pf, "\n");
 	for(int j=0; j<InputLayer.NumberOfChildNodes; j++)
-		fprintf(f, "(%d) = %f\n", j, InputLayer.BiasWeights[j]);
+		fprintf(pf, "(%d) = %f\n", j, InputLayer.BiasWeights[j]);
 
-	fprintf(f, "\n");
-	fprintf(f, "\n");
+	fprintf(pf, "\n");
+	fprintf(pf, "\n");
 
-	fprintf(f, "--------------------------------------------------------\n");
-	fprintf(f, "Hidden Layer\n");
-	fprintf(f, "--------------------------------------------------------\n");
-	fprintf(f, "\n");
-	fprintf(f, "Weights:\n");
-	fprintf(f, "\n");
+	fprintf(pf, "--------------------------------------------------------\n");
+	fprintf(pf, "Hidden Layer\n");
+	fprintf(pf, "--------------------------------------------------------\n");
+	fprintf(pf, "\n");
+	fprintf(pf, "Weights:\n");
+	fprintf(pf, "\n");
 	for(int i=0; i<HiddenLayer.NumberOfNodes; i++)
 		for(int j=0; j<HiddenLayer.NumberOfChildNodes; j++)
-			fprintf(f, "(%d, %d) = %f\n", i, j, HiddenLayer.Weights[i][j]);
-	fprintf(f, "\n");
-	fprintf(f, "Bias Weights:\n");
-	fprintf(f, "\n");
+			fprintf(pf, "(%d, %d) = %f\n", i, j, HiddenLayer.Weights[i][j]);
+	fprintf(pf, "\n");
+	fprintf(pf, "Bias Weights:\n");
+	fprintf(pf, "\n");
 	for(int j=0; j<HiddenLayer.NumberOfChildNodes; j++)
-		fprintf(f, "(%d) = %f\n", j, HiddenLayer.BiasWeights[j]);
+		fprintf(pf, "(%d) = %f\n", j, HiddenLayer.BiasWeights[j]);
 
-	fprintf(f, "\n");
-	fprintf(f, "\n");
+	fprintf(pf, "\n");
+	fprintf(pf, "\n");
 
-	fprintf(f, "--------------------------------------------------------\n");
-	fprintf(f, "Output Layer\n");
-	fprintf(f, "--------------------------------------------------------\n");
-	fprintf(f, "\n");
-	fprintf(f, "Node Values:\n");
-	fprintf(f, "\n");
+	fprintf(pf, "--------------------------------------------------------\n");
+	fprintf(pf, "Output Layer\n");
+	fprintf(pf, "--------------------------------------------------------\n");
+	fprintf(pf, "\n");
+	fprintf(pf, "Node Values:\n");
+	fprintf(pf, "\n");
 	for(int i=0; i<OutputLayer.NumberOfNodes; i++)		
-		fprintf(f, "(%d) = %f\n", i, OutputLayer.NeuronValues[i]);
-	fprintf(f, "\n");
+		fprintf(pf, "(%d) = %f\n", i, OutputLayer.NeuronValues[i]);
+	fprintf(pf, "\n");
 
-	fclose(f);
+	fclose(pf);
 }
