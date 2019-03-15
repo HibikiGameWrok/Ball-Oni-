@@ -18,7 +18,6 @@ public:
 	// 境界Boxの情報設定関数
 	void SetCollision(Collision::Box box);
 
-
 	//void Set2Collision(DX::DeviceResources * deviceResources,int i, Collision::Box box);
 
 	// 境界Boxの情報取得関数

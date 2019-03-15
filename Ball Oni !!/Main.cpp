@@ -5,6 +5,8 @@
 #include "pch.h"
 #include "Game.h"
 
+#pragma warning(disable : 4099)
+
 #if _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
