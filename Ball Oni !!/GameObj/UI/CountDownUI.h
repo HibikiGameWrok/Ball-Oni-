@@ -48,7 +48,10 @@ public:
 	// 画像の挙動処理
 	void ImageMove();
 public:
-	// 動作フラグを取得&設定する関数
+	// 動作フラグを取得＆設定する関数
 	bool GetMoveFlag() { return m_moveFlag; }
 	void SetMoveFlag(bool moveFlag) { m_moveFlag = moveFlag; }
+
+	// 描画座標を設定する関数
+	void SetPos(DirectX::SimpleMath::Vector2 pos) { m_pos = pos; }
 };

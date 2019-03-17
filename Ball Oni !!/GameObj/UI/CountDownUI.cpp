@@ -21,7 +21,7 @@ CountDownUI::CountDownUI(DirectX::SimpleMath::Vector2 pos)
 	, m_countTime(MAX_COUNT)
 	, m_countDown_rect(0, 0, 100, 100)
 	, m_countDown_scale(MAX_COUNTDOWNUI_SIZE)
-	, m_moveFlag(false)
+	, m_moveFlag(true)
 {
 	m_pos = pos;
 }
@@ -62,6 +62,9 @@ void CountDownUI::Start()
 /// <returns>true == 更新, false == 停止 </returns>
 bool CountDownUI::Update(float elapsedTime)
 {
+	// 画像の座標を更新
+	m_imageCountDownUI.SetPos(m_pos.x, m_pos.y);
+
 	// 動作フラグがtrueの時
 	if (m_moveFlag == true)
 	{
@@ -136,6 +139,10 @@ void CountDownUI::ImageMove()
 	// 残り３秒の時
 	if (m_countTime == 3)
 	{
+		m_countDown_rect.x = 0;
+		m_countDown_rect.y = 0;
+		m_countDown_rect.z = COUNTUI_WIDTH;
+		m_countDown_rect.w = COUNTUI_WIDTH;
 		// 画像スケールを縮小
 		if (m_countDown_scale.x > ZERO_SCALE || m_countDown_scale.y > ZERO_SCALE)
 		{
