@@ -42,6 +42,9 @@ private:
 
 	// 発射フラグ
 	bool m_shotFlag;
+
+	// 停止フラグ
+	bool m_stopFlag;
 public:
 	// コンストラクタ
 	Player(DirectX::SimpleMath::Vector3 pos,float dir);
@@ -72,4 +75,7 @@ public:
 
 	// 移動フラグを取得
 	MOVE GetMoFlag() { return m_moveFlag; }
+
+	// 停止フラグを設定
+	void SetStopFlag(bool stop) { m_stopFlag = stop; }
 };
