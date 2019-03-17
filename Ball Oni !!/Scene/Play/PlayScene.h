@@ -16,6 +16,8 @@
 
 #include "../../TaskSystem/TaskBase.h"
 
+#include "../../GameObj/UI/TeachPlayStartUI.h"
+#include "../../GameObj/UI/CountDownUI.h"
 #include "../../GameObj/UI/JudgeUI.h"
 #include "../../GameObj/UI/StaminaBer.h"
 #include "../../GameObj/UI/GameTime.h"
@@ -33,8 +35,6 @@
 
 #include "../../Effect/EffectManager.h"
 
-#include "../../GameObj/UI/TeachPlayStartUI.h"
-
 class PlayScene : public Task::TaskBase
 {
 public:
@@ -46,6 +46,8 @@ private:
 	MyLibrary::ADX2Le *m_pAdx2le;
 
 	TeachPlayStartUI* m_pTeachPlayStart; // 開始する前に表示するUI
+
+	CountDownUI* m_pCountDown;  // カウントダウンするUI
 
 	StaminaGauge* m_pStamina;		// スタミナバー
 	GameTime* m_pTime;			// 時間	

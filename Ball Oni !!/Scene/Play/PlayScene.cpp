@@ -84,23 +84,26 @@ void PlayScene::Start()
 /// </summary>
 void PlayScene::Create2D()
 {
+	m_pCountDown = new CountDownUI(Vector2(600.0f,500.0f));	// ３カウントするUI
+	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pCountDown);
+
 	m_pTeachPlayStart = new TeachPlayStartUI();   // 開始前に表示するUI
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pTeachPlayStart);
 
-	m_pTime = new GameTime();											// カウントタイム
+	m_pTime = new GameTime();	// ゲームの進行タイムUI
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pTime);
 
-	m_pStamina = new StaminaGauge();									// スタミナバー
+	m_pStamina = new StaminaGauge();	// スタミナバーUI
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pStamina);
 
-	m_pJudgeUI = new JudgeUI();											// 鬼は誰か判断するUI
+	m_pJudgeUI = new JudgeUI();		// 鬼は誰か判断するUI
 	Task::TaskManager::AddTask(GetThisTaskHandle(), m_pJudgeUI);
 	m_pJudgeUI->SetNowOni(m_nowOni);
 
-	KeyOperation* pKeyOperation = new KeyOperation();					// 移動キー
+	KeyOperation* pKeyOperation = new KeyOperation();	// 移動キーUI
 	Task::TaskManager::AddTask(GetThisTaskHandle(), pKeyOperation);
 
-	InstructionKey* pInstructionKey = new InstructionKey();				// アクションキー
+	InstructionKey* pInstructionKey = new InstructionKey();	 // アクションキーUI
 	Task::TaskManager::AddTask(GetThisTaskHandle(), pInstructionKey);
 }
 
@@ -206,8 +209,15 @@ bool PlayScene::Update(float elapsedTime)
 {
 	// ゲームを開始する処理
 	StartGame();
+	// ゲームが開始された時
 	if (m_startFlag != false)
 	{
+		// 開始前に描画するUIを削除
+		if (m_pTeachPlayStart != nullptr) {
+			Task::TaskManager::RemoveTask(m_pTeachPlayStart->GetThisTaskHandle());
+			m_pTeachPlayStart = nullptr;
+		}
+
 		// カウントを始める
 		m_pTime->SetStopFlag(false);
 
@@ -274,8 +284,12 @@ void PlayScene::DrawEnd()
 /// </summary>
 void PlayScene::StartGame()
 {
-	// スペースを押された瞬間、ゲームを開始する
-	if (InputManager::GetInstance().GetKeyTracker().IsKeyPressed(Keyboard::Space))
+	if(m_startFlag == false)
+	{
+		m_pCountDown->SetMoveFlag(true);
+	}
+
+	if (m_pCountDown->GetMoveFlag() == false)
 	{
 		// ゲームが始まっている状態
 		m_startFlag = true;
@@ -371,6 +385,7 @@ void PlayScene::SetUpFunc()
 		m_pCpu->SetOniFlag(false);
 	}
 
+#pragma region "当たり判定処理(管理クラスに処理を移行後消す)"
 #pragma region 壁との当たり判定
 	// 前後の壁に当たった時
 	for (int i = 0; i < HALF_WALL; i++)
@@ -578,6 +593,7 @@ void PlayScene::SetUpFunc()
 			}
 		}
 	}
+#pragma endregion
 #pragma endregion
 
 	// 玉が発射されていない時
