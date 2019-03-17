@@ -17,6 +17,8 @@
 #include "../../TaskSystem/TaskBase.h"
 
 #include "../../GameObj/UI/TeachPlayStartUI.h"
+#include "../../GameObj/UI/StartSign.h"
+
 #include "../../GameObj/UI/CountDownUI.h"
 #include "../../GameObj/UI/JudgeUI.h"
 #include "../../GameObj/UI/StaminaBer.h"
@@ -46,6 +48,7 @@ private:
 	MyLibrary::ADX2Le *m_pAdx2le;
 
 	TeachPlayStartUI* m_pTeachPlayStart; // 開始する前に表示するUI
+	StartSignUI* m_pStartSign; // スタートを促すUI
 
 	CountDownUI* m_pCountDown;  // カウントダウンするUI
 
