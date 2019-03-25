@@ -210,6 +210,10 @@ bool PlayScene::Update(float elapsedTime)
 {
 	// ゲームを開始する処理
 	StartGame();
+
+	// 当たり判定等の更新(後に消す)
+	SetUpFunc();
+
 	// ゲームが開始された時
 	if (m_startFlag == true)
 	{
@@ -241,10 +245,8 @@ bool PlayScene::Update(float elapsedTime)
 
 		// 停止しない
 		m_pPlayer->SetStopFlag(false);
-
-		// 当たり判定等の更新(後に消す)
-		SetUpFunc();
-
+		m_pCpu->SetStopFlag(false);
+		
 		// 影のモデルにプレイヤーの座標を伝える
 		m_pShadow[0]->SetPos(Vector3(m_pPlayer->GetPos().x, m_pPlayer->GetPos().y - 0.28f, m_pPlayer->GetPos().z));
 		m_pShadow[1]->SetPos(Vector3(m_pCpu->GetPos().x, m_pCpu->GetPos().y - 0.28f, m_pCpu->GetPos().z));
