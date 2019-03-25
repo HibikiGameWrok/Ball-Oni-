@@ -54,8 +54,12 @@ private:
 
 	// スタンタイム
 	float m_stanTime;
-	// スタン状態か見るフラグ
+
+	// スタンフラグ
 	bool m_stanFlag;
+
+	// 停止フラグ
+	bool m_stopFlag;
 
 	// 相手の座標を保管する変数
 	DirectX::SimpleMath::Vector3 m_targetPos;
@@ -98,6 +102,9 @@ public:
 	// スタンフラグを設定関数と取得関数
 	void SetStanFlag(bool stan) { m_stanFlag = stan; }
 	bool GetStanFlag() { return m_stanFlag; }
+
+	// 停止フラグを設定
+	void SetStopFlag(bool stop) { m_stopFlag = stop; }
 
 	// 発射設定関数と取得関数
 	void SetShotFlag(bool on) { m_shotFlag = on; }

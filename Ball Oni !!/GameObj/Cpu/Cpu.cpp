@@ -23,6 +23,7 @@ Cpu::Cpu(DirectX::SimpleMath::Vector3 pos, float dir)
 	,m_secondsTime_Ai(0)
 	,m_randAction(0)
 	,m_stanTime(STAN_MAXTIME)
+	,m_stopFlag(true)
 	,m_stanFlag(false)
 	,m_shotFlag(false)
 {
@@ -69,7 +70,7 @@ bool Cpu::Update(float elapsedTime)
 {
 	m_vel = Vector3::Zero;
 	static int timer = 0;
-	if (m_stanFlag == false)
+	if (m_stopFlag == false || m_stanFlag != true)
 	{
 		timer++;
 		// 対象物へ角度を取得
@@ -123,28 +124,22 @@ bool Cpu::Update(float elapsedTime)
 		//default:
 		//	break;
 		//}
+
+		Hit_DownMotion();
+
+		// プレイヤーを移動させる
+		// 指定した値を軸に回転
+		Vector3 trans;
+		m_rot = Quaternion::CreateFromAxisAngle(Vector3(0.0f, 1.0f, 0.0f), m_dir + XMConvertToRadians(180));
+
+
+		// 座標に向きと速度を与える
+		m_pos -= m_vel;
+
+		// ワールド行列の作成
+		// 回転してから移動
+		m_world = Matrix::CreateScale(m_scale) * Matrix::CreateFromQuaternion(m_rot) * Matrix::CreateTranslation(m_pos);
 	}
-	
-	Hit_DownMotion();
-	
-	// プレイヤーを移動させる
-	// 指定した値を軸に回転
-	Vector3 trans;
-	m_rot = Quaternion::CreateFromAxisAngle(Vector3(0.0f, 1.0f, 0.0f),m_dir + XMConvertToRadians(180));
-
-	// 向きを変える
-	//trans = Vector3::Transform(m_vel, m_rot);
-
-	// 座標に向きと速度を与える
-	m_pos -= m_vel;
-
-	// 移動フラグをリセット
-	/*m_moveFlag = STOP;*/
-
-	// ワールド行列の作成
-	// 回転してから移動
-	m_world = Matrix::CreateScale(m_scale) * Matrix::CreateFromQuaternion(m_rot) * Matrix::CreateTranslation(m_pos);
-	//System::Draw3DManager::GetInstance().SetWorld(m_world);
 	return true;
 }
 #pragma endregion 
