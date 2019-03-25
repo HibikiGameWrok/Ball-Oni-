@@ -26,8 +26,9 @@ public:
 		LEFT_BACK,	// 右斜め後ろ
 		DASH,		// 走る
 	};
-	const float MOVE_SPEED = 0.1f;	// 通常速度定数 
-	const float DASH_SPEED = 0.2f;	// 走る速度定数
+
+	const float MOVE_SPEED = 0.08f;	// 通常速度定数 
+	const float DASH_SPEED = 0.15f;	// 走る速度定数
 
 private:
 	// 移動フラグ
